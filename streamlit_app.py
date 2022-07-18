@@ -5,7 +5,7 @@ import streamlit as st
 
 st.write(
     """
-# Cooking App
+# Nutrition App
 Recipes
 """
 )
