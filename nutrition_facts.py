@@ -21,7 +21,9 @@ nutrition_facts_100g = {
         "Vitamin C": "108%",
         "Calcium": "3.1%",
         "Iron": "3.7%",
-    }
+    },
+    "chicken_breast": {"Calories": "foo"},
+    "brown_rice": {"Calories": "bar"},
 }
 
 # * % Daily Values are based on a 2000 calorie diet.
