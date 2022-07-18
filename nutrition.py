@@ -8,12 +8,13 @@ from nutrition_facts import nutrition_facts_100g
 
 class Meal:
     def __init__(self, ingredients: dict) -> None:
-        self.ingredients = ingredients
+        self.ingredients = {
+            k.lower().replace(" ", "_"): v for k, v in ingredients.items()
+        }
 
     def get_all_facts(self) -> dict:
         all_facts = {}
         for ingredient in self.ingredients.keys():
-            ingredient = ingredient.lower().replace(" ", "_")
             ingredient_facts = nutrition_facts_100g[ingredient]
             all_facts[ingredient] = ingredient_facts
         return all_facts
