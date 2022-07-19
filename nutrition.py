@@ -6,6 +6,8 @@ import re
 
 # from pprint import pprint as pp
 
+import lookup
+
 # from nutrition_facts import nutrition_facts_100g
 
 
@@ -29,30 +31,35 @@ class Meal:
         return self.dfs
 
     def calc_nutrients_from_amount(self):
-        regex = "(\d*)\s?([a-zA-Z]*)"
+        regex = r"(\d*)\s?([a-zA-Z]*)"
 
         for value in self.ingredients.values():
             res = re.search(regex, value)
             amount, unit = res.group(1), res.group(2)
             factor = float(amount) / 100
-            print(factor)
-            # print(unit)
 
             protein_100g = self.dfs["broccoli_raw"][
                 self.dfs["broccoli_raw"]["Nutrient"] == "Protein"
-            ]["Amount"]
+            ]
 
-            print(protein_100g)
+            protein_100g_amount = protein_100g["Amount"]
+            protein_100g_unit = protein_100g["Unit"]
 
-            protein_actual = protein_100g * factor
-
-            print(protein_actual)
+            protein_actual = (
+                protein_100g_amount
+                * lookup.WeightUnit[protein_100g_unit.values[0].upper()].value
+                * factor
+                * lookup.WeightUnit[unit.upper()].value
+            )
+            return f"{protein_actual.values[0]:.2f} g"
 
     def get_all_facts(self) -> dict:
         all_facts = {}
+        """
         for ingredient in self.ingredients.keys():
             ingredient_facts = nutrition_facts_100g[ingredient]
             all_facts[ingredient] = ingredient_facts
+        """
         return all_facts
 
     def get_macros(self):
@@ -91,7 +98,8 @@ def main():
     # print(dfs["broccoli_raw"])
     # print(dfs["broccoli_raw"].dtypes)
 
-    dinner.calc_nutrients_from_amount()
+    protein = dinner.calc_nutrients_from_amount()
+    print("protein: ", protein)
 
     # dinner.calc_nutrients_from_amount()
 
