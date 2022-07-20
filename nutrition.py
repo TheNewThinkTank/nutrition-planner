@@ -30,28 +30,38 @@ class Meal:
 
         return self.dfs
 
-    def calc_nutrients_from_amount(self):
+    def get_macros(self):
         regex = r"(\d*)\s?([a-zA-Z]*)"
 
-        for value in self.ingredients.values():
+        macros = {}
+
+        for k, value in self.ingredients.items():
             res = re.search(regex, value)
             amount, unit = res.group(1), res.group(2)
             factor = float(amount) / 100
 
-            protein_100g = self.dfs["broccoli_raw"][
-                self.dfs["broccoli_raw"]["Nutrient"] == "Protein"
-            ]
+            def get_macro(nutrient):
+                per_100g = self.dfs["broccoli_raw"][
+                    self.dfs["broccoli_raw"]["Nutrient"] == nutrient
+                ]
+                amount_100g = per_100g["Amount"]
+                nutrient_unit = per_100g["Unit"]
+                nutrient_actual = (
+                    amount_100g
+                    * lookup.WeightUnit[nutrient_unit.values[0].upper()].value
+                    * factor
+                    * lookup.WeightUnit[unit.upper()].value
+                )
 
-            protein_100g_amount = protein_100g["Amount"]
-            protein_100g_unit = protein_100g["Unit"]
+                return f"{nutrient}: {nutrient_actual.values[0]:.2f} g"
 
-            protein_actual = (
-                protein_100g_amount
-                * lookup.WeightUnit[protein_100g_unit.values[0].upper()].value
-                * factor
-                * lookup.WeightUnit[unit.upper()].value
-            )
-            return f"{protein_actual.values[0]:.2f} g"
+            macros[k] = {
+                get_macro("Protein"),
+                get_macro("Carbohydrate"),
+                get_macro("Fat"),
+            }
+
+        return macros
 
     def get_all_facts(self) -> dict:
         all_facts = {}
@@ -61,13 +71,6 @@ class Meal:
             all_facts[ingredient] = ingredient_facts
         """
         return all_facts
-
-    def get_macros(self):
-        carbs = ""
-        fat = ""
-        protein = ""
-
-        return carbs, fat, protein
 
     def get_micros(self):
 
@@ -98,10 +101,8 @@ def main():
     # print(dfs["broccoli_raw"])
     # print(dfs["broccoli_raw"].dtypes)
 
-    protein = dinner.calc_nutrients_from_amount()
-    print("protein: ", protein)
-
-    # dinner.calc_nutrients_from_amount()
+    macros = dinner.get_macros()
+    print("{macros = }")
 
     # all_facts = dinner.get_all_facts()
     # print(all_facts)
