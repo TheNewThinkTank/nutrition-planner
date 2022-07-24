@@ -25,10 +25,9 @@ NUTRITIONIX_KEY = st.secrets["NUTRITIONIX_KEY"]
 
 HEADER = f"Content-Type:application/json,x-app-id:{NUTRITIONIX_ID},x-app-key:{NUTRITIONIX_KEY}"
 
-BODY = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
 
-
-def get_facts():
+def get_facts(ingredient, amount, unit):
+    BODY = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
 
     response = requests.post(
         URL,
@@ -39,4 +38,4 @@ def get_facts():
     return response.text
 
 
-st.write(get_facts())
+st.write(get_facts(ingredient, amount, unit))
