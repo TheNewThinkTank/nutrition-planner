@@ -1,6 +1,7 @@
 """_summary_
 """
 
+import json
 import requests
 import streamlit as st
 
@@ -53,7 +54,7 @@ def get_facts(ingredient, amount, unit):
         r["nf_protein"],
     )
     """
-    return type(response.text), response.text
+    return type(response), response
 
 
 st.write(get_facts(ingredient, amount, unit))
