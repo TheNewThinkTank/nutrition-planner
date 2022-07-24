@@ -54,7 +54,7 @@ def get_facts(ingredient, amount, unit):
         r["nf_protein"],
     )
     """
-    return json.dump(response.text)
+    return json.dumps(response.text)
 
 
 st.write(get_facts(ingredient, amount, unit))
