@@ -40,7 +40,7 @@ def get_facts(ingredient, amount, unit):
     r = json.loads(response.text)["foods"][0]
 
     return (
-        r["foods"],
+        r["food_name"],
         r["serving_qty"],
         r["serving_unit"],
         r["nf_calories"],
