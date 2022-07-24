@@ -24,8 +24,8 @@ NUTRITIONIX_ID = st.secrets["NUTRITIONIX_ID"]
 NUTRITIONIX_KEY = st.secrets["NUTRITIONIX_KEY"]
 
 HEADER = "Content-Type: application/json,"
-f"x-app-id: {NUTRITIONIX_ID},"
-f"x-app-key: {NUTRITIONIX_KEY}"
+# f"x-app-id: {NUTRITIONIX_ID},"
+# f"x-app-key: {NUTRITIONIX_KEY}"
 
 BODY = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
 
