@@ -37,7 +37,7 @@ def get_facts(ingredient, amount, unit):
     )
 
     r = response.text["foods"]
-
+    """
     return (
         r["foods"],
         r["serving_qty"],
@@ -52,6 +52,8 @@ def get_facts(ingredient, amount, unit):
         r["nf_sugars"],
         r["nf_protein"],
     )
+    """
+    return r
 
 
 st.write(get_facts(ingredient, amount, unit))
