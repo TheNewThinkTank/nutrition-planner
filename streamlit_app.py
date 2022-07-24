@@ -39,20 +39,20 @@ def get_facts(ingredient, amount, unit):
 
     r = json.loads(response.text)["foods"][0]
 
-    return (
-        r["food_name"],
-        r["serving_qty"],
-        r["serving_unit"],
-        r["nf_calories"],
-        r["nf_total_fat"],
-        r["nf_saturated_fat"],
-        r["nf_cholesterol"],
-        r["nf_sodium"],
-        r["nf_total_carbohydrate"],
-        r["nf_dietary_fiber"],
-        r["nf_sugars"],
-        r["nf_protein"],
-    )
+    return {
+        "food_name": r["food_name"],
+        "serving_qty": r["serving_qty"],
+        "serving_unit": r["serving_unit"],
+        "calories": r["nf_calories"],
+        "total_fat": r["nf_total_fat"],
+        "saturated_fat": r["nf_saturated_fat"],
+        "cholesterol": r["nf_cholesterol"],
+        "sodium": r["nf_sodium"],
+        "total_carbohydrate": r["nf_total_carbohydrate"],
+        "dietary_fiber": r["nf_dietary_fiber"],
+        "sugars": r["nf_sugars"],
+        "protein": r["nf_protein"],
+    }
 
 
 st.write(get_facts(ingredient, amount, unit))
