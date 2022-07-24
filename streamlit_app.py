@@ -23,9 +23,7 @@ URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 NUTRITIONIX_ID = st.secrets["NUTRITIONIX_ID"]
 NUTRITIONIX_KEY = st.secrets["NUTRITIONIX_KEY"]
 
-HEADER = "Content-Type: application/json,"
-# f"x-app-id: {NUTRITIONIX_ID},"
-# f"x-app-key: {NUTRITIONIX_KEY}"
+HEADER = f"Content-Type:application/json,x-app-id:{NUTRITIONIX_ID},x-app-key:{NUTRITIONIX_KEY}"
 
 BODY = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
 
@@ -39,3 +37,6 @@ def get_facts():
     )
 
     return response.text
+
+
+st.write(get_facts())
