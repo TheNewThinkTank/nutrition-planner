@@ -1,6 +1,6 @@
-# cooking-app
+# nutrition-app
 
-streamlit app for cooking recipes
+streamlit app for analyzing nutritional content of your meals
 
 # Try out the app here
 
