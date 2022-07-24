@@ -37,7 +37,7 @@ def get_facts(ingredient, amount, unit):
         json=BODY,
     )
 
-    # r = response.text["foods"]
+    r = json.loads(response.text)["foods"]
     """
     return (
         r["foods"],
@@ -54,7 +54,7 @@ def get_facts(ingredient, amount, unit):
         r["nf_protein"],
     )
     """
-    return json.loads(response.text)
+    return r[0]
 
 
 st.write(get_facts(ingredient, amount, unit))
