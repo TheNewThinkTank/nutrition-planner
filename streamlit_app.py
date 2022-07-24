@@ -35,7 +35,7 @@ def get_facts(ingredient, amount, unit):
         json=BODY,
     )
 
-    return response.text
+    return response  # .text
 
 
 st.write(get_facts(ingredient, amount, unit))
