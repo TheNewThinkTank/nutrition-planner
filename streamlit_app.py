@@ -8,7 +8,7 @@ st.title("Nutrition App")
 st.write(
     """
 # Analyze the nutritional content of your meals
-powered by nutritionix
+Created by Gustav C. Rasmussen. Powered by nutritionix
 """
 )
 
