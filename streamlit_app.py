@@ -20,10 +20,11 @@ unit = st.sidebar.text_input("Unit")
 
 URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 
-NUTRITIONIX_ID = st.secrets["NUTRITIONIX_ID"]
-NUTRITIONIX_KEY = st.secrets["NUTRITIONIX_KEY"]
-
-HEADER = f"Content-Type:application/json,x-app-id:{NUTRITIONIX_ID},x-app-key:{NUTRITIONIX_KEY}"
+HEADER = {
+    "Content-Type": "application/json",
+    "x-app-id": st.secrets["NUTRITIONIX_ID"],
+    "x-app-key": st.secrets["NUTRITIONIX_KEY"],
+}
 
 
 def get_facts(ingredient, amount, unit):
@@ -35,7 +36,7 @@ def get_facts(ingredient, amount, unit):
         json=BODY,
     )
 
-    return response  # .text
+    return response.text
 
 
 st.write(get_facts(ingredient, amount, unit))
