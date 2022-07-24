@@ -2,6 +2,7 @@
 """
 
 import json
+import matplotlib.pyplot as plt
 import requests
 import streamlit as st
 
@@ -55,4 +56,14 @@ def get_facts(ingredient, amount, unit):
     }
 
 
-st.write(get_facts(ingredient, amount, unit))
+nutrition = get_facts(ingredient, amount, unit)
+st.write(nutrition)
+
+
+fig1, ax1 = plt.subplots()
+labels = "protein", "fat", "carbohydrate"
+sizes = [nutrition["protein"], nutrition["total_fat"], nutrition["total_carbohydrate"]]
+ax1.pie(sizes, labels=labels, autopct="%1.1f%%", shadow=True, startangle=90)
+ax1.axis("equal")
+
+st.pyplot(fig1)
