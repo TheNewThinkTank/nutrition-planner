@@ -3,11 +3,17 @@
 
 import streamlit as st
 
+st.title("Nutrition App")
+
 st.write(
     """
-# Nutrition App
-Recipes
+# Analyze the nutritional content of your meals
+powered by nutritionix
 """
 )
 
-dish = st.radio("Pick a dish", ["succotash", "curried pumpkin soup"])
+# dish = st.radio("Pick a dish", ["succotash", "curried pumpkin soup"])
+
+st.sidebar.text_input("Ingredient")
+st.sidebar.text_input("Amount")
+st.sidebar.text_input("Unit")
