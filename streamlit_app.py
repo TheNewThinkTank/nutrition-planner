@@ -2,8 +2,10 @@
 """
 
 import json
+
 import matplotlib.pyplot as plt
 import requests
+import seaborn as sns
 import streamlit as st
 
 st.title("Nutrition App")
@@ -63,7 +65,13 @@ st.write(nutrition)
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
 sizes = [nutrition["protein"], nutrition["total_fat"], nutrition["total_carbohydrate"]]
-ax1.pie(sizes, labels=labels, autopct="%1.1f%%", shadow=True, startangle=90)
+colors = sns.color_palette("pastel")[0:3]
+ax1.pie(
+    sizes, labels=labels, colors=colors, autopct="%1.1f%%", shadow=True, startangle=90
+)
+
+# plt.pie(data, labels=labels, colors=colors, autopct="%.0f%%")
+
 ax1.axis("equal")
 
 st.pyplot(fig1)
