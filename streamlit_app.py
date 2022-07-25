@@ -76,7 +76,7 @@ for k, v in ingredients.items():
     fat += nutrition["total_fat"]
     carbs += nutrition["total_carbohydrate"]
     # st.write(nutrition)
-st.write(protein, fat, carbs)
+st.write(f"Meal macros: {protein = }, {fat = }, {carbs = }")
 
 """
 plt.style.use("dark_background")
