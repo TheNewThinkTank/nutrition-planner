@@ -67,11 +67,13 @@ labels = "protein", "fat", "carbohydrate"
 sizes = [nutrition["protein"], nutrition["total_fat"], nutrition["total_carbohydrate"]]
 colors = sns.color_palette("pastel")[0:3]
 ax1.pie(
-    sizes, labels=labels, colors=colors, autopct="%1.1f%%", shadow=True, startangle=90
+    sizes,
+    labels=labels,
+    colors=colors,
+    autopct="%1.1f%%",  # shadow=True,
+    startangle=90,
 )
-
-# plt.pie(data, labels=labels, colors=colors, autopct="%.0f%%")
+# autopct="%.0f%%"
 
 ax1.axis("equal")
-
 st.pyplot(fig1)
