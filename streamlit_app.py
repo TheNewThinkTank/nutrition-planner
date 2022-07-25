@@ -71,7 +71,6 @@ ax1.pie(
     labels=labels,
     colors=colors,
     autopct="%1.1f%%",
-    wedgeprops={"edgecolor": "black", "linewidth": 2, "antialiased": True},
 )
 ax1.axis("equal")
 st.pyplot(fig1)
