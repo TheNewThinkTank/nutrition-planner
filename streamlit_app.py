@@ -61,10 +61,7 @@ def get_facts(ingredient, amount, unit):
 nutrition = get_facts(ingredient, amount, unit)
 st.write(nutrition)
 
-
-# sns.set(style="ticks", context="talk")
 plt.style.use("dark_background")
-
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
 sizes = [nutrition["protein"], nutrition["total_fat"], nutrition["total_carbohydrate"]]
@@ -74,10 +71,6 @@ ax1.pie(
     labels=labels,
     colors=colors,
     autopct="%1.1f%%",
-    # shadow=True,
-    # startangle=90,
 )
-# autopct="%.0f%%"
-
 ax1.axis("equal")
 st.pyplot(fig1)
