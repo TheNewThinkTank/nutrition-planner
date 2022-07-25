@@ -9,13 +9,17 @@ import seaborn as sns
 import streamlit as st
 
 st.title("Nutrition App")
-
 st.write(
     """
 # Analyze the nutritional content of your meals
 Created by Gustav C. Rasmussen. Powered by nutritionix
 """
 )
+
+number_of_ingredients = 2
+
+for i in range(number_of_ingredients):
+    st.write(i)
 
 ingredient = st.sidebar.text_input("Ingredient")
 amount = st.sidebar.text_input("Amount")
