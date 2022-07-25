@@ -57,9 +57,26 @@ def get_facts(ingredient, amount, unit):
     }
 
 
+"""
+col1, col2, col3 = st.columns(3)
+with col1:
+    st.header("rice")
+with col2:
+    st.header("beef")
+with col2:
+    st.header("broccoli")
+"""
+
+protein = 0
+fat = 0
+carbs = 0
 for k, v in ingredients.items():
     nutrition = get_facts(k, v[0], v[1])
-    st.write(nutrition)
+    protein += nutrition["protein"]
+    fat += nutrition["total_fat"]
+    carbs += nutrition["total_carbohydrate"]
+    # st.write(nutrition)
+st.write(protein, fat, carbs)
 
 """
 plt.style.use("dark_background")
