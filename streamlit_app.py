@@ -19,11 +19,11 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 number_of_ingredients = 2
 
 for i in range(number_of_ingredients):
-    st.write(i)
+    # st.write(i)
 
-ingredient = st.sidebar.text_input("Ingredient")
-amount = st.sidebar.text_input("Amount")
-unit = st.sidebar.text_input("Unit")
+    ingredient = st.sidebar.text_input("Ingredient")
+    amount = st.sidebar.text_input("Amount")
+    unit = st.sidebar.text_input("Unit")
 
 
 URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
