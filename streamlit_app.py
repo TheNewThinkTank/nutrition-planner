@@ -65,7 +65,9 @@ for k, v in ingredients.items():
     protein += nutrition["protein"]
     fat += nutrition["total_fat"]
     carbs += nutrition["total_carbohydrate"]
-st.write(f"Meal macros:\nProtein:{protein:.1f}\nFat{fat:.1f}\nCarbs{carbs:.1f}")
+st.write(
+    f"Meal macros:\tProtein: {protein:.1f} g\tFat: {fat:.1f} g\tCarbs: {carbs:.1f} g"
+)
 
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
