@@ -18,7 +18,7 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 
 number_of_ingredients = 2
 
-for i in range(0, number_of_ingredients + 1):
+for i in range(1, number_of_ingredients + 1):
     # st.write(i)
 
     ingredient = st.sidebar.text_input(f"Ingredient_{i}")
