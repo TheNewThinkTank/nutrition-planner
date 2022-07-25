@@ -78,11 +78,10 @@ for k, v in ingredients.items():
     # st.write(nutrition)
 st.write(f"Meal macros: {protein = }, {fat = }, {carbs = }")
 
-"""
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
-sizes = [nutrition["protein"], nutrition["total_fat"], nutrition["total_carbohydrate"]]
+sizes = [protein, fat, carbs]
 colors = sns.color_palette("pastel")[0:3]
 ax1.pie(
     sizes,
@@ -92,4 +91,3 @@ ax1.pie(
 )
 ax1.axis("equal")
 st.pyplot(fig1)
-"""
