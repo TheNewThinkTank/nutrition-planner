@@ -62,6 +62,9 @@ nutrition = get_facts(ingredient, amount, unit)
 st.write(nutrition)
 
 
+# sns.set(style="ticks", context="talk")
+plt.style.use("dark_background")
+
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
 sizes = [nutrition["protein"], nutrition["total_fat"], nutrition["total_carbohydrate"]]
