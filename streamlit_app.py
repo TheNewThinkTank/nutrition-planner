@@ -11,7 +11,7 @@ import streamlit as st
 st.title("Nutrition App")
 st.write(
     """
-# Analyze the nutritional content of your meals
+## Analyze the nutritional content of your meals
 Created by Gustav C. Rasmussen. Powered by nutritionix
 """
 )
