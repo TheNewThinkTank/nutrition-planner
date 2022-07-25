@@ -16,7 +16,7 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 """
 )
 
-number_of_ingredients = 2
+number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
 
 for i in range(1, number_of_ingredients + 1):
     # st.write(i)
