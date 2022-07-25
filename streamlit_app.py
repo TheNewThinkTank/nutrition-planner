@@ -21,9 +21,9 @@ number_of_ingredients = 2
 for i in range(number_of_ingredients):
     # st.write(i)
 
-    ingredient = st.sidebar.text_input("Ingredient")
-    amount = st.sidebar.text_input("Amount")
-    unit = st.sidebar.text_input("Unit")
+    ingredient = st.sidebar.text_input(f"Ingredient_{i}")
+    amount = st.sidebar.text_input(f"Amount_{i}")
+    unit = st.sidebar.text_input(f"Unit_{i}")
 
 
 URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
