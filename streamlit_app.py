@@ -73,8 +73,9 @@ ax1.pie(
     sizes,
     labels=labels,
     colors=colors,
-    autopct="%1.1f%%",  # shadow=True,
-    startangle=90,
+    autopct="%1.1f%%",
+    # shadow=True,
+    # startangle=90,
 )
 # autopct="%.0f%%"
 
