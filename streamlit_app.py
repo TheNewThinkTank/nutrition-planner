@@ -17,27 +17,22 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 )
 
 number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
-
+ingredients = {}
 for i in range(1, int(number_of_ingredients) + 1):
-    # st.write(i)
-
     ingredient = st.sidebar.text_input(f"Ingredient_{i}")
     amount = st.sidebar.text_input(f"Amount_{i}")
     unit = st.sidebar.text_input(f"Unit_{i}")
-
-
-URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
-
-HEADER = {
-    "Content-Type": "application/json",
-    "x-app-id": st.secrets["NUTRITIONIX_ID"],
-    "x-app-key": st.secrets["NUTRITIONIX_KEY"],
-}
+    ingredients[ingredient] = amount, unit
 
 
 def get_facts(ingredient, amount, unit):
+    URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
+    HEADER = {
+        "Content-Type": "application/json",
+        "x-app-id": st.secrets["NUTRITIONIX_ID"],
+        "x-app-key": st.secrets["NUTRITIONIX_KEY"],
+    }
     BODY = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
-
     response = requests.post(
         URL,
         headers=HEADER,
@@ -62,9 +57,11 @@ def get_facts(ingredient, amount, unit):
     }
 
 
-nutrition = get_facts(ingredient, amount, unit)
-st.write(nutrition)
+for k, v in ingredients.items():
+    nutrition = get_facts(k, v[0], v[1])
+    st.write(nutrition)
 
+"""
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
@@ -78,3 +75,4 @@ ax1.pie(
 )
 ax1.axis("equal")
 st.pyplot(fig1)
+"""
