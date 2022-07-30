@@ -3,10 +3,8 @@
 
 import json
 
-import matplotlib.pyplot as plt
-
 import httpx
-
+import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 
@@ -17,22 +15,6 @@ st.write(
 Created by Gustav C. Rasmussen. Powered by nutritionix
 """
 )
-
-
-URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
-HEADER = {
-    "Content-Type": "application/json",
-    "x-app-id": st.secrets["NUTRITIONIX_ID"],
-    "x-app-key": st.secrets["NUTRITIONIX_KEY"],
-}
-BODY = {"query": "20g of rice", "timezone": "US/Eastern"}
-
-r = httpx.post(URL, headers=HEADER, json=BODY)
-
-r.status_code
-r.text
-r.json()
-
 
 number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
 ingredients = {}
@@ -52,17 +34,9 @@ def get_facts(ingredient, amount, unit):
     }
     BODY = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
 
-    r = httpx.post(URL, headers=HEADER, data=BODY)
-    # r = requests.post(
-    #     URL,
-    #     headers=HEADER,
-    #     json=BODY,
-    # )
+    r = httpx.post(URL, headers=HEADER, json=BODY)
+    r = json.loads(r.text)["foods"][0]
 
-    # r = json.loads(r.text)["foods"][0]
-    # r = json.loads(r.text)
-
-    """
     return {
         "food_name": r["food_name"],
         "serving_qty": r["serving_qty"],
@@ -77,23 +51,22 @@ def get_facts(ingredient, amount, unit):
         "sugars": r["nf_sugars"],
         "protein": r["nf_protein"],
     }
-    """
-    return r.text  # r
 
 
-# protein = 0
-# fat = 0
-# carbs = 0
-# for k, v in ingredients.items():
-# nutrition = get_facts(k, v[0], v[1])
-# print(f"{nutrition = }")
-# protein += nutrition["protein"]
-# fat += nutrition["total_fat"]
-# carbs += nutrition["total_carbohydrate"]
-# st.write(
-#     f"Meal macros: Protein: {protein:.1f} g, Fat: {fat:.1f} g, Carbs: {carbs:.1f} g"
-# )
-"""
+protein = 0
+fat = 0
+carbs = 0
+for k, v in ingredients.items():
+    nutrition = get_facts(k, v[0], v[1])
+    print(f"{nutrition = }")
+    protein += nutrition["protein"]
+    fat += nutrition["total_fat"]
+    carbs += nutrition["total_carbohydrate"]
+
+st.write(
+    f"Meal macros: Protein: {protein:.1f} g, Fat: {fat:.1f} g, Carbs: {carbs:.1f} g"
+)
+
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
@@ -107,4 +80,3 @@ ax1.pie(
 )
 ax1.axis("equal")
 st.pyplot(fig1)
-"""
