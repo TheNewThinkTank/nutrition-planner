@@ -20,6 +20,21 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 """
 )
 
+
+URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
+HEADER = {
+    "Content-Type": "application/json",
+    "x-app-id": st.secrets["NUTRITIONIX_ID"],
+    "x-app-key": st.secrets["NUTRITIONIX_KEY"],
+}
+BODY = {"query": "20g of rice", "timezone": "US/Eastern"}
+
+r = httpx.post(URL, headers=HEADER, data=BODY)
+
+print(r.text)
+# r.json()
+
+
 number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
 ingredients = {}
 for i in range(1, int(number_of_ingredients) + 1):
@@ -70,12 +85,12 @@ def get_facts(ingredient, amount, unit):
 # protein = 0
 # fat = 0
 # carbs = 0
-for k, v in ingredients.items():
-    nutrition = get_facts(k, v[0], v[1])
-    print(f"{nutrition = }")
-    # protein += nutrition["protein"]
-    # fat += nutrition["total_fat"]
-    # carbs += nutrition["total_carbohydrate"]
+# for k, v in ingredients.items():
+# nutrition = get_facts(k, v[0], v[1])
+# print(f"{nutrition = }")
+# protein += nutrition["protein"]
+# fat += nutrition["total_fat"]
+# carbs += nutrition["total_carbohydrate"]
 # st.write(
 #     f"Meal macros: Protein: {protein:.1f} g, Fat: {fat:.1f} g, Carbs: {carbs:.1f} g"
 # )
