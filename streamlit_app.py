@@ -4,7 +4,11 @@
 import json
 
 import matplotlib.pyplot as plt
-import requests
+
+# https://www.python-httpx.org/
+import httpx
+
+# import requests
 import seaborn as sns
 import streamlit as st
 
@@ -33,13 +37,15 @@ def get_facts(ingredient, amount, unit):
         "x-app-key": st.secrets["NUTRITIONIX_KEY"],
     }
     BODY = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
-    response = requests.post(
-        URL,
-        headers=HEADER,
-        json=BODY,
-    )
 
-    r = json.loads(response.text)["foods"][0]
+    r = httpx.post(URL, headers=HEADER, data=BODY)
+    # r = requests.post(
+    #     URL,
+    #     headers=HEADER,
+    #     json=BODY,
+    # )
+
+    r = json.loads(r.text)["foods"][0]
 
     return {
         "food_name": r["food_name"],
