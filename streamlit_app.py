@@ -45,8 +45,9 @@ def get_facts(ingredient, amount, unit):
     #     json=BODY,
     # )
 
-    r = json.loads(r.text)["foods"][0]
+    # r = json.loads(r.text)["foods"][0]
 
+    """
     return {
         "food_name": r["food_name"],
         "serving_qty": r["serving_qty"],
@@ -61,6 +62,8 @@ def get_facts(ingredient, amount, unit):
         "sugars": r["nf_sugars"],
         "protein": r["nf_protein"],
     }
+    """
+    return json.loads(r.text)
 
 
 protein = 0
@@ -68,13 +71,14 @@ fat = 0
 carbs = 0
 for k, v in ingredients.items():
     nutrition = get_facts(k, v[0], v[1])
+    print(f"{nutrition = }")
     protein += nutrition["protein"]
     fat += nutrition["total_fat"]
     carbs += nutrition["total_carbohydrate"]
 st.write(
     f"Meal macros: Protein: {protein:.1f} g, Fat: {fat:.1f} g, Carbs: {carbs:.1f} g"
 )
-
+"""
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
@@ -88,3 +92,4 @@ ax1.pie(
 )
 ax1.axis("equal")
 st.pyplot(fig1)
+"""
