@@ -29,7 +29,7 @@ HEADER = {
 }
 BODY = {"query": "20g of rice", "timezone": "US/Eastern"}
 
-r = httpx.post(URL, headers=HEADER, data=BODY)
+r = httpx.post(URL, headers=HEADER, json=BODY)
 
 r.status_code
 r.text
