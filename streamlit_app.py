@@ -31,8 +31,9 @@ BODY = {"query": "20g of rice", "timezone": "US/Eastern"}
 
 r = httpx.post(URL, headers=HEADER, data=BODY)
 
-print(r.text)
-# r.json()
+r.status_code
+r.text
+r.json()
 
 
 number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
