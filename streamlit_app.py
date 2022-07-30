@@ -46,7 +46,7 @@ def get_facts(ingredient, amount, unit):
     # )
 
     # r = json.loads(r.text)["foods"][0]
-    r = json.loads(r.text)
+    # r = json.loads(r.text)
 
     """
     return {
@@ -64,7 +64,7 @@ def get_facts(ingredient, amount, unit):
         "protein": r["nf_protein"],
     }
     """
-    return r
+    return r.text  # r
 
 
 # protein = 0
