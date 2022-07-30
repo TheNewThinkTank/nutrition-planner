@@ -5,10 +5,8 @@ import json
 
 import matplotlib.pyplot as plt
 
-# https://www.python-httpx.org/
 import httpx
 
-# import requests
 import seaborn as sns
 import streamlit as st
 
@@ -32,7 +30,7 @@ BODY = {"query": "20g of rice", "timezone": "US/Eastern"}
 r = httpx.post(URL, headers=HEADER, json=BODY)
 
 r.status_code
-r.text
+# r.text
 r.json()
 
 
