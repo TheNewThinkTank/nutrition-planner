@@ -43,7 +43,7 @@ async def get_nutritionix(client, body):
     nutrition["protein"] += r["nf_protein"]
     nutrition["fat"] += r["nf_total_fat"]
     nutrition["carbs"] += r["nf_total_carbohydrate"]
-    return nutrition
+    return
 
 
 async def main():
@@ -53,23 +53,23 @@ async def main():
             BODY = {"query": f"{v[0]}{v[1]} of {k}", "timezone": "US/Eastern"}
             tasks.append(asyncio.create_task(get_nutritionix(client, BODY)))
         macros = await asyncio.gather(*tasks)
-        return macros
+        return
 
 
 start_time = time.time()
-macros = asyncio.run(main())
+asyncio.run(main())
 print(f"Calls to the Nutritionix API took: {time.time() - start_time} seconds")
 
 st.write(
-    f"Meal macros: Protein: {macros['protein']:.1f} g,"
-    f" Fat: {macros['fat']:.1f} g,"
-    f" Carbs: {macros['carbs']:.1f} g"
+    f"Meal macros: Protein: {nutrition['protein']:.1f} g,"
+    f" Fat: {nutrition['fat']:.1f} g,"
+    f" Carbs: {nutrition['carbs']:.1f} g"
 )
 
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
-sizes = [macros["protein"], macros["fat"], macros["carbs"]]
+sizes = [nutrition["protein"], nutrition["fat"], nutrition["carbs"]]
 colors = sns.color_palette("pastel")[0:3]
 ax1.pie(
     sizes,
