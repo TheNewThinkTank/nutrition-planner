@@ -58,7 +58,7 @@ async def main():
 
 start_time = time.time()
 asyncio.run(main())
-print(f"Calls to the Nutritionix API took: {time.time() - start_time} seconds")
+st.write(f"Calls to the Nutritionix API took: {time.time() - start_time} seconds")
 
 st.write(
     f"Meal macros: Protein: {nutrition['protein']:.1f} g,"
