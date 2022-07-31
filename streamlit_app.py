@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 
-st.title(f"{'Nutrition App': ^10}")
+st.title(f"{'Nutrition App': ^100}")
 st.write(
     """
 ## Analyze the nutritional content of your meals
