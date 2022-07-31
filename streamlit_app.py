@@ -18,14 +18,12 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 """
 )
 
-number_of_ingredients = st.sidebar.text_input(
-    "Number of main ingredients in your meal", 0
-)
+number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
 
 try:
     num_ingredients = int(number_of_ingredients)
 except:
-    st.error("Please make sure that you only enter a number")
+    # st.error("Please make sure that you only enter a number")
     st.stop()
 
 ingredients = {}
