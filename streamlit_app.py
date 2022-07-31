@@ -65,7 +65,10 @@ st.write(
     f" Carbs: {nutrition['carbs']:.1f} g"
 )
 
-st.write(f"Calls to the Nutritionix API took: {time.time() - start_time:.1f} seconds")
+st.write(
+    "Calls to the Nutritionix API took a total of: "
+    f"{time.time() - start_time:.1f} seconds"
+)
 
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
