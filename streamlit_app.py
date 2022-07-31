@@ -18,9 +18,10 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 """
 )
 
-number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
+number_of_ingredients = st.sidebar.text_input(
+    "Number of main ingredients in your meal", 0
+)
 
-# numberofcasesdayz = (st.sidebar.text_input('Number of cases on day zero', 130000))
 try:
     num_ingredients = int(number_of_ingredients)
 except:
