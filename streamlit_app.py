@@ -19,11 +19,9 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 )
 
 number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
-
 try:
     num_ingredients = int(number_of_ingredients)
 except:
-    # st.error("Please make sure that you only enter a number")
     st.stop()
 
 ingredients = {}
@@ -32,6 +30,12 @@ for i in range(1, int(number_of_ingredients) + 1):
     amount = st.sidebar.text_input(f"Amount_{i}")
     unit = st.sidebar.text_input(f"Unit_{i}")
     ingredients[ingredient] = amount, unit
+    try:
+        food = str(ingredient)
+        qty = int(amount)
+        unt = str(unit)
+    except:
+        st.stop()
 
 URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 HEADER = {
