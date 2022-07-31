@@ -1,7 +1,9 @@
 """_summary_
 """
 
+import asyncio
 import json
+import time
 
 import httpx
 import matplotlib.pyplot as plt
@@ -24,53 +26,50 @@ for i in range(1, int(number_of_ingredients) + 1):
     unit = st.sidebar.text_input(f"Unit_{i}")
     ingredients[ingredient] = amount, unit
 
+URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
+HEADER = {
+    "Content-Type": "application/json",
+    "x-app-id": st.secrets["NUTRITIONIX_ID"],
+    "x-app-key": st.secrets["NUTRITIONIX_KEY"],
+}
 
-def get_facts(ingredient, amount, unit):
-    URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
-    HEADER = {
-        "Content-Type": "application/json",
-        "x-app-id": st.secrets["NUTRITIONIX_ID"],
-        "x-app-key": st.secrets["NUTRITIONIX_KEY"],
-    }
-    BODY = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
+nutrition = {"protein": 0, "fat": 0, "carbs": 0}
 
-    r = httpx.post(URL, headers=HEADER, json=BODY)
+
+async def get_nutritionix(client, body):
+    r = await client.post(URL, json=body)
+    # assert r.status_code == 200
     r = json.loads(r.text)["foods"][0]
-
-    return {
-        "food_name": r["food_name"],
-        "serving_qty": r["serving_qty"],
-        "serving_unit": r["serving_unit"],
-        "calories": r["nf_calories"],
-        "total_fat": r["nf_total_fat"],
-        "saturated_fat": r["nf_saturated_fat"],
-        "cholesterol": r["nf_cholesterol"],
-        "sodium": r["nf_sodium"],
-        "total_carbohydrate": r["nf_total_carbohydrate"],
-        "dietary_fiber": r["nf_dietary_fiber"],
-        "sugars": r["nf_sugars"],
-        "protein": r["nf_protein"],
-    }
+    nutrition["protein"] += r["nf_protein"]
+    nutrition["fat"] += r["nf_total_fat"]
+    nutrition["carbs"] += r["nf_total_carbohydrate"]
+    return nutrition
 
 
-protein = 0
-fat = 0
-carbs = 0
-for k, v in ingredients.items():
-    nutrition = get_facts(k, v[0], v[1])
-    print(f"{nutrition = }")
-    protein += nutrition["protein"]
-    fat += nutrition["total_fat"]
-    carbs += nutrition["total_carbohydrate"]
+async def main():
+    async with httpx.AsyncClient(headers=HEADER) as client:
+        tasks = []
+        for k, v in ingredients.items():
+            BODY = {"query": f"{v[0]}{v[1]} of {k}", "timezone": "US/Eastern"}
+            tasks.append(asyncio.create_task(get_nutritionix(client, BODY)))
+        macros = await asyncio.gather(*tasks)
+        return macros
+
+
+start_time = time.time()
+macros = asyncio.run(main())
+print(f"Calls to the Nutritionix API took: {time.time() - start_time} seconds")
 
 st.write(
-    f"Meal macros: Protein: {protein:.1f} g, Fat: {fat:.1f} g, Carbs: {carbs:.1f} g"
+    f"Meal macros: Protein: {macros['protein']:.1f} g,"
+    f" Fat: {macros['fat']:.1f} g,"
+    f" Carbs: {macros['carbs']:.1f} g"
 )
 
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
-sizes = [protein, fat, carbs]
+sizes = [macros["protein"], macros["fat"], macros["carbs"]]
 colors = sns.color_palette("pastel")[0:3]
 ax1.pie(
     sizes,
