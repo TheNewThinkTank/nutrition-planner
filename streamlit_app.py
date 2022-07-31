@@ -58,13 +58,14 @@ async def main():
 
 start_time = time.time()
 asyncio.run(main())
-st.write(f"Calls to the Nutritionix API took: {time.time() - start_time} seconds")
 
 st.write(
     f"Meal macros: Protein: {nutrition['protein']:.1f} g,"
     f" Fat: {nutrition['fat']:.1f} g,"
     f" Carbs: {nutrition['carbs']:.1f} g"
 )
+
+st.write(f"Calls to the Nutritionix API took: {time.time() - start_time:.1f} seconds")
 
 plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
