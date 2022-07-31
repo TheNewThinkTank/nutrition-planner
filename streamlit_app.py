@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import streamlit as st
 
-st.title(f"{'Nutrition App': ^100}")
+st.title("Nutrition App")
 st.write(
     """
 ## Analyze the nutritional content of your meals
@@ -19,6 +19,14 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 )
 
 number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
+
+# numberofcasesdayz = (st.sidebar.text_input('Number of cases on day zero', 130000))
+try:
+    num_ingredients = int(number_of_ingredients)
+except:
+    st.error("Please make sure that you only enter a number")
+    st.stop()
+
 ingredients = {}
 for i in range(1, int(number_of_ingredients) + 1):
     ingredient = st.sidebar.text_input(f"Ingredient_{i}")
