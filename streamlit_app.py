@@ -81,7 +81,7 @@ st.write(
     f"{time.time() - start_time:.1f} seconds"
 )
 
-plt.style.use("dark_background")
+# plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
 sizes = [nutrition["protein"], nutrition["fat"], nutrition["carbs"]]
