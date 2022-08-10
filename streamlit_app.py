@@ -96,7 +96,7 @@ ax1.pie(
 ax1.axis("equal")
 """
 
-# sns.set_theme(style="whitegrid")
+sns.set_theme(style="whitegrid")
 tips = sns.load_dataset("tips")
 ax1 = sns.barplot(x=list(labels), y=sizes)
 
