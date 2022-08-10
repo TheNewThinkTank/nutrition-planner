@@ -86,6 +86,7 @@ fig1, ax1 = plt.subplots()
 labels = "protein", "fat", "carbohydrate"
 sizes = [nutrition["protein"], nutrition["fat"], nutrition["carbs"]]
 colors = sns.color_palette("pastel")[0:3]
+"""
 ax1.pie(
     sizes,
     labels=labels,
@@ -93,4 +94,10 @@ ax1.pie(
     autopct="%1.1f%%",
 )
 ax1.axis("equal")
+"""
+
+# sns.set_theme(style="whitegrid")
+tips = sns.load_dataset("tips")
+ax = sns.barplot(x=labels, y=sizes)  # colors=colors, data=tips)
+
 st.pyplot(fig1)
