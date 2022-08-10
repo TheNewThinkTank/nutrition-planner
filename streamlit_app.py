@@ -63,7 +63,8 @@ async def main():
         for k, v in ingredients.items():
             BODY = {"query": f"{v[0]}{v[1]} of {k}", "timezone": "US/Eastern"}
             tasks.append(asyncio.create_task(get_nutritionix(client, BODY)))
-        macros = await asyncio.gather(*tasks)
+        # macros = await asyncio.gather(*tasks)
+        await asyncio.gather(*tasks)
         return
 
 
@@ -81,23 +82,9 @@ st.write(
     f"{time.time() - start_time:.1f} seconds"
 )
 
-# plt.style.use("dark_background")
+plt.style.use("dark_background")
 fig1, ax1 = plt.subplots()
-labels = "protein", "fat", "carbohydrate"
+labels = ["protein", "fat", "carbohydrate"]
 sizes = [nutrition["protein"], nutrition["fat"], nutrition["carbs"]]
-# colors = sns.color_palette("pastel")[0:3]
-"""
-ax1.pie(
-    sizes,
-    labels=labels,
-    colors=colors,
-    autopct="%1.1f%%",
-)
-ax1.axis("equal")
-"""
-
-sns.set_theme(style="whitegrid")
-tips = sns.load_dataset("tips")
-ax1 = sns.barplot(x=list(labels), y=sizes)
-
+ax1 = sns.barplot(x=labels, y=sizes)
 st.pyplot(fig1)
