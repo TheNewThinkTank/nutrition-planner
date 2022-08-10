@@ -98,6 +98,6 @@ ax1.axis("equal")
 
 # sns.set_theme(style="whitegrid")
 tips = sns.load_dataset("tips")
-ax1 = sns.barplot(data=nutrition)  # x=labels, y=sizes)  # colors=colors, data=tips)
+ax1 = sns.barplot(x=list(labels), y=sizes)  # colors=colors, data=tips)
 
 st.pyplot(fig1)
