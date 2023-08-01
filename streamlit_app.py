@@ -21,7 +21,8 @@ Created by Gustav C. Rasmussen. Powered by nutritionix
 number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
 try:
     num_ingredients = int(number_of_ingredients)
-except:
+except Exception as e:
+    print(e)
     st.stop()
 
 ingredients = {}
@@ -34,7 +35,8 @@ for i in range(1, int(number_of_ingredients) + 1):
         food = str(ingredient)
         qty = int(amount)
         unt = str(unit)
-    except:
+    except Exception as e:
+        print(e)
         st.stop()
 
 URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
