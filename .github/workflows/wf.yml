@@ -1,0 +1,46 @@
+---
+name: nutrition-planner Workflow
+
+on:
+  push:
+    branches: main
+  workflow_dispatch:
+
+jobs:
+  Qualify-Code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: pip
+
+      # - name: install ruff and lint python code
+      #   run: pip install ruff && ruff check .
+
+      - name: Install and cache poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+        if: steps.cache.outputs.cache-hit != 'true'
+
+      - name: Cache poetry dependencies
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: ${{ runner.os }}-poetry-
+
+      - name: Install dependencies with poetry
+        run: poetry install
+        env:
+          POETRY_VIRTUALENVS_IN_PROJECT: true
+        if: steps.cache.outputs.cache-hit != 'true'
+
+      - name: Lint with ruff
+        run: poetry run ruff .
