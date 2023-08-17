@@ -4,6 +4,10 @@
 
 streamlit app for analyzing nutritional content of your meals
 
-# Try out the app here
+## Try out the app here
 
-https://thenewthinktank-nutrition-planner-streamlit-app-sunft6.streamlitapp.com/
+- [streamlit app](https://thenewthinktank-nutrition-planner-streamlit-app-sunft6.streamlitapp.com/)
+
+## Read about it on medium
+
+- [medium article](https://medium.com/@GustavCollinRasmussen/build-a-nutrition-app-on-streamlit-8c4f01229989)
