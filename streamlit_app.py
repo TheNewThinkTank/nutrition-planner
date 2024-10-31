@@ -1,8 +1,5 @@
-"""_summary_
-"""
-
 import asyncio
-import json
+# import json
 import time
 
 import httpx
@@ -14,31 +11,25 @@ st.title("Nutrition App")
 st.write(
     """
 ## Analyze the nutritional content of your meals
-Created by Gustav C. Rasmussen. Powered by nutritionix
+Created by Gustav C. Rasmussen. Powered by Nutritionix
 """
 )
 
-number_of_ingredients = st.sidebar.text_input("Number of main ingredients in your meal")
-try:
-    num_ingredients = int(number_of_ingredients)
-except Exception as e:
-    print(e)
-    st.stop()
+# Set up input and validation for ingredients
+ingredients = []
+with st.sidebar:
+    st.write("### Add Ingredients")
+    num_ingredients = st.number_input("Number of ingredients", min_value=1, value=1, step=1)
 
-ingredients = {}
-for i in range(1, int(number_of_ingredients) + 1):
-    ingredient = st.sidebar.text_input(f"Ingredient_{i}")
-    amount = st.sidebar.text_input(f"Amount_{i}")
-    unit = st.sidebar.text_input(f"Unit_{i}")
-    ingredients[ingredient] = amount, unit
-    try:
-        food = str(ingredient)
-        qty = int(amount)
-        unt = str(unit)
-    except Exception as e:
-        print(e)
-        st.stop()
+    for i in range(num_ingredients):
+        with st.expander(f"Ingredient {i + 1}"):
+            ingredient = st.text_input(f"Name of ingredient {i + 1}")
+            amount = st.number_input(f"Amount for ingredient {i + 1}", min_value=0.0, step=1.0)
+            unit = st.selectbox(f"Unit for ingredient {i + 1}", ["g", "ml", "oz", "cup", "tbsp"])
+            if ingredient and amount:
+                ingredients.append((ingredient, amount, unit))
 
+# Nutritionix API configuration
 URL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
 HEADER = {
     "Content-Type": "application/json",
@@ -46,46 +37,47 @@ HEADER = {
     "x-app-key": st.secrets["NUTRITIONIX_KEY"],
 }
 
+# Define nutrient totals
 nutrition = {"protein": 0, "fat": 0, "carbs": 0}
 
+# Fetch nutrition data asynchronously
+async def get_nutritionix(client, query):
+    try:
+        response = await client.post(URL, json={"query": query, "timezone": "US/Eastern"})
+        response.raise_for_status()  # Raise an error for bad status codes
+        food_data = response.json()["foods"][0]
+        return {
+            "protein": food_data["nf_protein"],
+            "fat": food_data["nf_total_fat"],
+            "carbs": food_data["nf_total_carbohydrate"],
+        }
+    except Exception as e:
+        st.error(f"Error retrieving data for {query}: {e}")
+        return None
 
-async def get_nutritionix(client, body):
-    r = await client.post(URL, json=body)
-    # assert r.status_code == 200
-    r = json.loads(r.text)["foods"][0]
-    nutrition["protein"] += r["nf_protein"]
-    nutrition["fat"] += r["nf_total_fat"]
-    nutrition["carbs"] += r["nf_total_carbohydrate"]
-    return
-
-
-async def main():
+async def main(ingredients):
     async with httpx.AsyncClient(headers=HEADER) as client:
         tasks = []
-        for k, v in ingredients.items():
-            BODY = {"query": f"{v[0]}{v[1]} of {k}", "timezone": "US/Eastern"}
-            tasks.append(asyncio.create_task(get_nutritionix(client, BODY)))
-        # macros = await asyncio.gather(*tasks)
-        await asyncio.gather(*tasks)
-        return
+        for ingredient, amount, unit in ingredients:
+            query = f"{amount} {unit} of {ingredient}"
+            tasks.append(get_nutritionix(client, query))
 
+        results = await asyncio.gather(*tasks)
+        for result in results:
+            if result:
+                nutrition["protein"] += result["protein"]
+                nutrition["fat"] += result["fat"]
+                nutrition["carbs"] += result["carbs"]
 
+# Run the main function and calculate time
 start_time = time.time()
-asyncio.run(main())
+asyncio.run(main(ingredients))
+st.write(f"Meal macros: Protein: {nutrition['protein']:.1f} g, Fat: {nutrition['fat']:.1f} g, Carbs: {nutrition['carbs']:.1f} g")
+st.write(f"API calls took a total of: {time.time() - start_time:.1f} seconds")
 
-st.write(
-    f"Meal macros: Protein: {nutrition['protein']:.1f} g,"
-    f" Fat: {nutrition['fat']:.1f} g,"
-    f" Carbs: {nutrition['carbs']:.1f} g"
-)
-
-st.write(
-    "Calls to the Nutritionix API took a total of: "
-    f"{time.time() - start_time:.1f} seconds"
-)
-
-fig1, ax1 = plt.subplots()
-labels = ["protein", "fat", "carbohydrate"]
-sizes = [nutrition["protein"], nutrition["fat"], nutrition["carbs"]]
-ax1 = sns.barplot(x=labels, y=sizes)
-st.pyplot(fig1)
+# Display chart
+fig, ax = plt.subplots()
+sns.barplot(x=["Protein", "Fat", "Carbs"], y=[nutrition["protein"], nutrition["fat"], nutrition["carbs"]], ax=ax)
+ax.set_title("Macronutrient Breakdown")
+ax.set_ylabel("Grams")
+st.pyplot(fig)
