@@ -19,13 +19,25 @@ Created by Gustav C. Rasmussen. Powered by Nutritionix
 ingredients = []
 with st.sidebar:
     st.write("### Add Ingredients")
-    num_ingredients = st.number_input("Number of ingredients", min_value=1, value=1, step=1)
+    num_ingredients = st.number_input(
+        "Number of ingredients",
+        min_value=1,
+        value=1,
+        step=1
+        )
 
     for i in range(num_ingredients):
         with st.expander(f"Ingredient {i + 1}"):
             ingredient = st.text_input(f"Name of ingredient {i + 1}")
-            amount = st.number_input(f"Amount for ingredient {i + 1}", min_value=0.0, step=1.0)
-            unit = st.selectbox(f"Unit for ingredient {i + 1}", ["g", "ml", "oz", "cup", "tbsp"])
+            amount = st.number_input(
+                f"Amount for ingredient {i + 1}",
+                min_value=0.0,
+                step=1.0
+                )
+            unit = st.selectbox(
+                f"Unit for ingredient {i + 1}",
+                ["g", "ml", "oz", "cup", "tbsp"]
+                )
             if ingredient and amount:
                 ingredients.append((ingredient, amount, unit))
 
@@ -56,7 +68,10 @@ async def main(ingredients):
     async with httpx.AsyncClient(headers=HEADER) as client:
         tasks = []
         for ingredient, amount, unit in ingredients:
-            body = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
+            body = {
+                "query": f"{amount}{unit} of {ingredient}",
+                "timezone": "US/Eastern"
+                }
             tasks.append(get_nutritionix(client, body))
         results = await asyncio.gather(*tasks)
         for result in results:
@@ -69,12 +84,20 @@ async def main(ingredients):
 # Run the main function and calculate time
 start_time = time.time()
 asyncio.run(main(ingredients))
-st.write(f"Meal macros: Protein: {nutrition['protein']:.1f} g, Fat: {nutrition['fat']:.1f} g, Carbs: {nutrition['carbs']:.1f} g")
+st.write(
+    f"Meal macros: Protein: {nutrition['protein']:.1f} g, "
+    f"Fat: {nutrition['fat']:.1f} g, "
+    f"Carbs: {nutrition['carbs']:.1f} g"
+         )
 st.write(f"API calls took a total of: {time.time() - start_time:.1f} seconds")
 
 # Display chart
 fig, ax = plt.subplots()
-sns.barplot(x=["Protein", "Fat", "Carbs"], y=[nutrition["protein"], nutrition["fat"], nutrition["carbs"]], ax=ax)
+sns.barplot(
+    x=["Protein", "Fat", "Carbs"],
+    y=[nutrition["protein"], nutrition["fat"], nutrition["carbs"]],
+    ax=ax
+    )
 ax.set_title("Macronutrient Breakdown")
 ax.set_ylabel("Grams")
 st.pyplot(fig)

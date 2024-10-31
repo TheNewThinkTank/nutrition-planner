@@ -24,9 +24,17 @@ sample_response = {
 
 @pytest.mark.asyncio
 async def test_get_nutritionix_success():
-    sample_response = {"foods": [{"nf_protein": 10.0, "nf_total_fat": 5.0, "nf_total_carbohydrate": 20.0}]}
+    sample_response = {
+        "foods": [
+            {"nf_protein": 10.0, "nf_total_fat": 5.0, "nf_total_carbohydrate": 20.0}
+            ]
+        }
     async with httpx.AsyncClient() as client:
-        with patch.object(client, "post", AsyncMock(return_value=httpx.Response(200, json=sample_response))):
+        with patch.object(
+            client,
+            "post",
+            AsyncMock(return_value=httpx.Response(200, json=sample_response))
+            ):
             result = await get_nutritionix(client, "1 cup of rice")
             assert result == {"protein": 10.0, "fat": 5.0, "carbs": 20.0}
 
