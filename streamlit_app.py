@@ -1,6 +1,6 @@
 import asyncio
-# import json
 import time
+import json
 
 import httpx
 import matplotlib.pyplot as plt
@@ -40,34 +40,31 @@ HEADER = {
 # Define nutrient totals
 nutrition = {"protein": 0, "fat": 0, "carbs": 0}
 
-# Fetch nutrition data asynchronously
-async def get_nutritionix(client, query):
-    try:
-        response = await client.post(URL, json={"query": query, "timezone": "US/Eastern"})
-        response.raise_for_status()  # Raise an error for bad status codes
-        food_data = response.json()["foods"][0]
-        return {
-            "protein": food_data["nf_protein"],
-            "fat": food_data["nf_total_fat"],
-            "carbs": food_data["nf_total_carbohydrate"],
-        }
-    except Exception as e:
-        st.error(f"Error retrieving data for {query}: {e}")
-        return None
+
+async def get_nutritionix(client, body):
+    r = await client.post(URL, json=body)
+    r = json.loads(r.text)["foods"][0]
+    return {
+        "protein": r["nf_protein"],
+        "fat": r["nf_total_fat"],
+        "carbs": r["nf_total_carbohydrate"]
+    }
+
 
 async def main(ingredients):
+    nutrition = {"protein": 0, "fat": 0, "carbs": 0}
     async with httpx.AsyncClient(headers=HEADER) as client:
         tasks = []
         for ingredient, amount, unit in ingredients:
-            query = f"{amount} {unit} of {ingredient}"
-            tasks.append(get_nutritionix(client, query))
-
+            body = {"query": f"{amount}{unit} of {ingredient}", "timezone": "US/Eastern"}
+            tasks.append(get_nutritionix(client, body))
         results = await asyncio.gather(*tasks)
         for result in results:
-            if result:
-                nutrition["protein"] += result["protein"]
-                nutrition["fat"] += result["fat"]
-                nutrition["carbs"] += result["carbs"]
+            nutrition["protein"] += result["protein"]
+            nutrition["fat"] += result["fat"]
+            nutrition["carbs"] += result["carbs"]
+    return nutrition
+
 
 # Run the main function and calculate time
 start_time = time.time()
