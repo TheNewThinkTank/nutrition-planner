@@ -1,3 +1,8 @@
+"""
+Nutrition app that calculates the macronutrient content of a meal,
+based on user input.
+"""
+
 import asyncio
 import time
 import json
