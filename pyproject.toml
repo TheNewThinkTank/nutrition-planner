@@ -9,7 +9,7 @@ package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
-streamlit = "^1.41.1"
+streamlit = "^1.46.1"
 matplotlib = "^3.10.0"
 seaborn = "^0.13.2"
 httpx = "^0.28.1"
