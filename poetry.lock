@@ -1596,14 +1596,14 @@ files = [
 
 [[package]]
 name = "streamlit"
-version = "1.50.0"
+version = "1.51.0"
 description = "A faster way to build and share data apps"
 optional = false
-python-versions = "!=3.9.7,>=3.9"
+python-versions = ">=3.10"
 groups = ["main"]
 files = [
-    {file = "streamlit-1.50.0-py3-none-any.whl", hash = "sha256:9403b8f94c0a89f80cf679c2fcc803d9a6951e0fba542e7611995de3f67b4bb3"},
-    {file = "streamlit-1.50.0.tar.gz", hash = "sha256:87221d568aac585274a05ef18a378b03df332b93e08103fffcf3cd84d852af46"},
+    {file = "streamlit-1.51.0-py3-none-any.whl", hash = "sha256:4008b029f71401ce54946bb09a6a3e36f4f7652cbb48db701224557738cfda38"},
+    {file = "streamlit-1.51.0.tar.gz", hash = "sha256:1e742a9c0b698f466c6f5bf58d333beda5a1fbe8de660743976791b5c1446ef6"},
 ]
 
 [package.dependencies]
@@ -1615,9 +1615,9 @@ gitpython = ">=3.0.7,<3.1.19 || >3.1.19,<4"
 numpy = ">=1.23,<3"
 packaging = ">=20,<26"
 pandas = ">=1.4.0,<3"
-pillow = ">=7.1.0,<12"
+pillow = ">=7.1.0,<13"
 protobuf = ">=3.20,<7"
-pyarrow = ">=7.0"
+pyarrow = ">=7.0,<22"
 pydeck = ">=0.8.0b4,<1"
 requests = ">=2.27,<3"
 tenacity = ">=8.1.0,<10"
@@ -1773,4 +1773,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.11"
-content-hash = "aa4feb2b2ae88f09eb95416731c395e160b2d823ddfaeb847ccebb51ad86a365"
+content-hash = "6a75077008a493bcf420dffd6866c839af0595fe4c417fc63e40338a4db6c4c4"
